@@ -1,0 +1,87 @@
+[package]
+name = "ieee802154_radio_sample"
+authors = ["Florian Grandel <fgrandel@code-for-humans.de>"]
+version = "0.1.0"
+edition = "2021"
+
+[lib]
+harness = false
+
+[[bin]]
+name = "client"
+harness = false
+
+[[bin]]
+name = "server"
+harness = false
+
+[features]
+# Fake feature required to satisfy rust-analyzer when co-developing embassy-nrf
+nrf52840 = []
+
+
+[dependencies]
+cortex-m = { version = "0.7", features = [
+    "inline-asm",
+    "critical-section-single-core",
+] }
+cortex-m-rt = "0.7"
+#defmt = "0.3"
+#defmt-rtt = "0.4"
+embassy-executor = { path = "../embassy/embassy-executor", features = [
+    "arch-cortex-m",
+    "executor-thread",
+    "executor-interrupt",
+    # "defmt",
+] }
+embassy-futures = { path = "../embassy/embassy-futures" }
+embassy-hal-internal = { path = "../embassy/embassy-hal-internal" }
+embassy-net = { path = "../embassy/embassy-net", features = [
+    # "defmt",
+    "tcp",
+    "udp",
+    "proto-ipv4",
+    "proto-ipv6",
+    "medium-ethernet",
+    "medium-ieee802154",
+] }
+embassy-net-driver = { path = "../embassy/embassy-net-driver" }
+embassy-nrf = { path = "../embassy/embassy-nrf", features = [
+    # "defmt",
+    "nrf52840",
+    "time-driver-rtc1",
+    "gpiote",
+    "unstable-pac",
+    "time",
+] }
+embassy-sync = { path = "../embassy/embassy-sync" }
+embassy-time = { path = "../embassy/embassy-time", features = [
+    # "defmt",
+    # "defmt-timestamp-uptime",
+] }
+embassy-usb = { path = "../embassy/embassy-usb", features = [
+    # "defmt"
+] }
+embedded-io-async = { version = "0.6", features = [
+    # "defmt-03"
+] }
+heapless = "0.8"
+log = { version = "0.4.27", features = [
+    "max_level_debug",
+    "release_max_level_warn",
+] }
+static_cell = { version = "2" }
+panic-probe = { version = "0.3", features = [
+    # "print-defmt"
+] }
+rtos-trace = { path = "../rtos-trace/rtos_trace" }
+systemview-target = { path = "../rtos-trace/systemview_target", features = [
+    "log",
+    "callbacks-app",
+] }
+
+[profile.dev]
+opt-level = 0
+
+[profile.release]
+debug = 2

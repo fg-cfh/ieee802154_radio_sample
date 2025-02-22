@@ -1,0 +1,6 @@
+MEMORY
+{
+  /* NRF52840 without softdevice */
+  FLASH : ORIGIN = 0x00000000, LENGTH = 1024K
+  RAM : ORIGIN = 0x20000000, LENGTH = 256K
+}
